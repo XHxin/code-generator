@@ -1,0 +1,2085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nelson.test.dao.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.nelson.test.dao.model.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nick_name, union_id, mobile
+  </sql>
+  <select id="selectByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nelson.test.dao.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nelson.test.dao.model.Member">
+    insert into member (id, nick_name, union_id, 
+      mobile)
+    values (#{id,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nelson.test.dao.model.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=INTEGER},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    <set>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+  <resultMap id="BaseResultMap" type="com.nelson.test.dao.model.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="id_card_num" jdbcType="VARCHAR" property="idCardNum" />
+    <result column="entry_time" jdbcType="TIMESTAMP" property="entryTime" />
+    <result column="current_duty" jdbcType="VARCHAR" property="currentDuty" />
+    <result column="professional_title" jdbcType="VARCHAR" property="professionalTitle" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="job_num" jdbcType="VARCHAR" property="jobNum" />
+    <result column="education" jdbcType="BIT" property="education" />
+    <result column="graduate_institution" jdbcType="VARCHAR" property="graduateInstitution" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="del" jdbcType="BIT" property="del" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, union_id, mobile, department_id, head_img, name, sex, id_card_num, entry_time, 
+    current_duty, professional_title, email, job_num, education, graduate_institution, 
+    major, status, del, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nelson.test.dao.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nelson.test.dao.model.Member">
+    insert into member (id, union_id, mobile, 
+      department_id, head_img, name, 
+      sex, id_card_num, entry_time, 
+      current_duty, professional_title, email, 
+      job_num, education, graduate_institution, 
+      major, status, del, gmt_create, 
+      gmt_modify)
+    values (#{id,jdbcType=INTEGER}, #{unionId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=INTEGER}, #{headImg,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=BIT}, #{idCardNum,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, 
+      #{currentDuty,jdbcType=VARCHAR}, #{professionalTitle,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{jobNum,jdbcType=VARCHAR}, #{education,jdbcType=BIT}, #{graduateInstitution,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{del,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nelson.test.dao.model.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idCardNum != null">
+        id_card_num,
+      </if>
+      <if test="entryTime != null">
+        entry_time,
+      </if>
+      <if test="currentDuty != null">
+        current_duty,
+      </if>
+      <if test="professionalTitle != null">
+        professional_title,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="jobNum != null">
+        job_num,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="graduateInstitution != null">
+        graduate_institution,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="idCardNum != null">
+        #{idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentDuty != null">
+        #{currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null">
+        #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNum != null">
+        #{jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=BIT},
+      </if>
+      <if test="graduateInstitution != null">
+        #{graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.headImg != null">
+        head_img = #{record.headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=BIT},
+      </if>
+      <if test="record.idCardNum != null">
+        id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryTime != null">
+        entry_time = #{record.entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.currentDuty != null">
+        current_duty = #{record.currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionalTitle != null">
+        professional_title = #{record.professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobNum != null">
+        job_num = #{record.jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=BIT},
+      </if>
+      <if test="record.graduateInstitution != null">
+        graduate_institution = #{record.graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.del != null">
+        del = #{record.del,jdbcType=BIT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=INTEGER},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
+      head_img = #{record.headImg,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=BIT},
+      id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
+      entry_time = #{record.entryTime,jdbcType=TIMESTAMP},
+      current_duty = #{record.currentDuty,jdbcType=VARCHAR},
+      professional_title = #{record.professionalTitle,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      job_num = #{record.jobNum,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=BIT},
+      graduate_institution = #{record.graduateInstitution,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      del = #{record.del,jdbcType=BIT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    <set>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="idCardNum != null">
+        id_card_num = #{idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentDuty != null">
+        current_duty = #{currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null">
+        professional_title = #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNum != null">
+        job_num = #{jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=BIT},
+      </if>
+      <if test="graduateInstitution != null">
+        graduate_institution = #{graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    set union_id = #{unionId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      id_card_num = #{idCardNum,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      current_duty = #{currentDuty,jdbcType=VARCHAR},
+      professional_title = #{professionalTitle,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      job_num = #{jobNum,jdbcType=VARCHAR},
+      education = #{education,jdbcType=BIT},
+      graduate_institution = #{graduateInstitution,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      del = #{del,jdbcType=BIT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+  <resultMap id="BaseResultMap" type="com.nelson.test.dao.model.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="id_card_num" jdbcType="VARCHAR" property="idCardNum" />
+    <result column="entry_time" jdbcType="TIMESTAMP" property="entryTime" />
+    <result column="current_duty" jdbcType="VARCHAR" property="currentDuty" />
+    <result column="professional_title" jdbcType="VARCHAR" property="professionalTitle" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="job_num" jdbcType="VARCHAR" property="jobNum" />
+    <result column="education" jdbcType="BIT" property="education" />
+    <result column="graduate_institution" jdbcType="VARCHAR" property="graduateInstitution" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="del" jdbcType="BIT" property="del" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, union_id, mobile, department_id, head_img, name, sex, id_card_num, entry_time, 
+    current_duty, professional_title, email, job_num, education, graduate_institution, 
+    major, status, del, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nelson.test.dao.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nelson.test.dao.model.Member">
+    insert into member (id, union_id, mobile, 
+      department_id, head_img, name, 
+      sex, id_card_num, entry_time, 
+      current_duty, professional_title, email, 
+      job_num, education, graduate_institution, 
+      major, status, del, gmt_create, 
+      gmt_modify)
+    values (#{id,jdbcType=INTEGER}, #{unionId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=INTEGER}, #{headImg,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=BIT}, #{idCardNum,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, 
+      #{currentDuty,jdbcType=VARCHAR}, #{professionalTitle,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{jobNum,jdbcType=VARCHAR}, #{education,jdbcType=BIT}, #{graduateInstitution,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{del,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nelson.test.dao.model.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idCardNum != null">
+        id_card_num,
+      </if>
+      <if test="entryTime != null">
+        entry_time,
+      </if>
+      <if test="currentDuty != null">
+        current_duty,
+      </if>
+      <if test="professionalTitle != null">
+        professional_title,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="jobNum != null">
+        job_num,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="graduateInstitution != null">
+        graduate_institution,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="idCardNum != null">
+        #{idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentDuty != null">
+        #{currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null">
+        #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNum != null">
+        #{jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=BIT},
+      </if>
+      <if test="graduateInstitution != null">
+        #{graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.headImg != null">
+        head_img = #{record.headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=BIT},
+      </if>
+      <if test="record.idCardNum != null">
+        id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryTime != null">
+        entry_time = #{record.entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.currentDuty != null">
+        current_duty = #{record.currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionalTitle != null">
+        professional_title = #{record.professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobNum != null">
+        job_num = #{record.jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=BIT},
+      </if>
+      <if test="record.graduateInstitution != null">
+        graduate_institution = #{record.graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.del != null">
+        del = #{record.del,jdbcType=BIT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=INTEGER},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
+      head_img = #{record.headImg,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=BIT},
+      id_card_num = #{record.idCardNum,jdbcType=VARCHAR},
+      entry_time = #{record.entryTime,jdbcType=TIMESTAMP},
+      current_duty = #{record.currentDuty,jdbcType=VARCHAR},
+      professional_title = #{record.professionalTitle,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      job_num = #{record.jobNum,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=BIT},
+      graduate_institution = #{record.graduateInstitution,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      del = #{record.del,jdbcType=BIT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    <set>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="idCardNum != null">
+        id_card_num = #{idCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentDuty != null">
+        current_duty = #{currentDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalTitle != null">
+        professional_title = #{professionalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNum != null">
+        job_num = #{jobNum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=BIT},
+      </if>
+      <if test="graduateInstitution != null">
+        graduate_institution = #{graduateInstitution,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    set union_id = #{unionId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      id_card_num = #{idCardNum,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      current_duty = #{currentDuty,jdbcType=VARCHAR},
+      professional_title = #{professionalTitle,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      job_num = #{jobNum,jdbcType=VARCHAR},
+      education = #{education,jdbcType=BIT},
+      graduate_institution = #{graduateInstitution,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      del = #{del,jdbcType=BIT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+  <resultMap id="BaseResultMap" type="com.nelson.test.dao.model.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openID" jdbcType="VARCHAR" property="openid" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="expert_check_status" jdbcType="VARCHAR" property="expertCheckStatus" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="regist_source" jdbcType="CHAR" property="registSource" />
+    <result column="regist_time" jdbcType="TIMESTAMP" property="registTime" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
+    <result column="is_sync" jdbcType="VARCHAR" property="isSync" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="init_time" jdbcType="TIMESTAMP" property="initTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="year_end_time" jdbcType="TIMESTAMP" property="yearEndTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="field" jdbcType="VARCHAR" property="field" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="work_years" jdbcType="VARCHAR" property="workYears" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="work_card" jdbcType="VARCHAR" property="workCard" />
+    <result column="visit_card" jdbcType="VARCHAR" property="visitCard" />
+    <result column="idcard_front" jdbcType="VARCHAR" property="idcardFront" />
+    <result column="idcard_back" jdbcType="VARCHAR" property="idcardBack" />
+    <result column="app_version" jdbcType="VARCHAR" property="appVersion" />
+    <result column="terminal" jdbcType="VARCHAR" property="terminal" />
+    <result column="bankID" jdbcType="INTEGER" property="bankid" />
+    <result column="income" jdbcType="DECIMAL" property="income" />
+    <result column="can_withdraw" jdbcType="DECIMAL" property="canWithdraw" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="virtual_coin" jdbcType="DECIMAL" property="virtualCoin" />
+    <result column="is_showIndex" jdbcType="VARCHAR" property="isShowindex" />
+    <result column="recommend_times" jdbcType="INTEGER" property="recommendTimes" />
+    <result column="recommender_id" jdbcType="INTEGER" property="recommenderId" />
+    <result column="easemob_user_name" jdbcType="VARCHAR" property="easemobUserName" />
+    <result column="easemob_password" jdbcType="VARCHAR" property="easemobPassword" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="tourist" jdbcType="VARCHAR" property="tourist" />
+    <result column="is_remind" jdbcType="TINYINT" property="isRemind" />
+    <result column="old_login_time" jdbcType="TIMESTAMP" property="oldLoginTime" />
+    <result column="old_login_ip" jdbcType="VARCHAR" property="oldLoginIp" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, openID, mobile, realname, role, expert_check_status, sex, email, address, regist_source, 
+    regist_time, edit_time, photo, image_path, status, access_token, is_sync, company, 
+    job, init_time, start_time, grade, type, year_end_time, end_time, field, school, 
+    major, profession, position, work_years, intro, work_card, visit_card, idcard_front, 
+    idcard_back, app_version, terminal, bankID, income, can_withdraw, integral, virtual_coin, 
+    is_showIndex, recommend_times, recommender_id, easemob_user_name, easemob_password, 
+    uuid, tourist, is_remind, old_login_time, old_login_ip, login_time, login_ip
+  </sql>
+  <select id="selectByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nelson.test.dao.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nelson.test.dao.model.Member">
+    insert into member (id, openID, mobile, 
+      realname, role, expert_check_status, 
+      sex, email, address, 
+      regist_source, regist_time, edit_time, 
+      photo, image_path, status, 
+      access_token, is_sync, company, 
+      job, init_time, start_time, 
+      grade, type, year_end_time, 
+      end_time, field, school, 
+      major, profession, position, 
+      work_years, intro, work_card, 
+      visit_card, idcard_front, idcard_back, 
+      app_version, terminal, bankID, 
+      income, can_withdraw, integral, 
+      virtual_coin, is_showIndex, recommend_times, 
+      recommender_id, easemob_user_name, easemob_password, 
+      uuid, tourist, is_remind, 
+      old_login_time, old_login_ip, login_time, 
+      login_ip)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{expertCheckStatus,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{registSource,jdbcType=CHAR}, #{registTime,jdbcType=TIMESTAMP}, #{editTime,jdbcType=TIMESTAMP}, 
+      #{photo,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{accessToken,jdbcType=VARCHAR}, #{isSync,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{initTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{grade,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{yearEndTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{field,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{workYears,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{workCard,jdbcType=VARCHAR}, 
+      #{visitCard,jdbcType=VARCHAR}, #{idcardFront,jdbcType=VARCHAR}, #{idcardBack,jdbcType=VARCHAR}, 
+      #{appVersion,jdbcType=VARCHAR}, #{terminal,jdbcType=VARCHAR}, #{bankid,jdbcType=INTEGER}, 
+      #{income,jdbcType=DECIMAL}, #{canWithdraw,jdbcType=DECIMAL}, #{integral,jdbcType=INTEGER}, 
+      #{virtualCoin,jdbcType=DECIMAL}, #{isShowindex,jdbcType=VARCHAR}, #{recommendTimes,jdbcType=INTEGER}, 
+      #{recommenderId,jdbcType=INTEGER}, #{easemobUserName,jdbcType=VARCHAR}, #{easemobPassword,jdbcType=VARCHAR}, 
+      #{uuid,jdbcType=VARCHAR}, #{tourist,jdbcType=VARCHAR}, #{isRemind,jdbcType=TINYINT}, 
+      #{oldLoginTime,jdbcType=TIMESTAMP}, #{oldLoginIp,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{loginIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nelson.test.dao.model.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openid != null">
+        openID,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="expertCheckStatus != null">
+        expert_check_status,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="registSource != null">
+        regist_source,
+      </if>
+      <if test="registTime != null">
+        regist_time,
+      </if>
+      <if test="editTime != null">
+        edit_time,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="accessToken != null">
+        access_token,
+      </if>
+      <if test="isSync != null">
+        is_sync,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="initTime != null">
+        init_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="yearEndTime != null">
+        year_end_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="field != null">
+        field,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="workYears != null">
+        work_years,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="workCard != null">
+        work_card,
+      </if>
+      <if test="visitCard != null">
+        visit_card,
+      </if>
+      <if test="idcardFront != null">
+        idcard_front,
+      </if>
+      <if test="idcardBack != null">
+        idcard_back,
+      </if>
+      <if test="appVersion != null">
+        app_version,
+      </if>
+      <if test="terminal != null">
+        terminal,
+      </if>
+      <if test="bankid != null">
+        bankID,
+      </if>
+      <if test="income != null">
+        income,
+      </if>
+      <if test="canWithdraw != null">
+        can_withdraw,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="virtualCoin != null">
+        virtual_coin,
+      </if>
+      <if test="isShowindex != null">
+        is_showIndex,
+      </if>
+      <if test="recommendTimes != null">
+        recommend_times,
+      </if>
+      <if test="recommenderId != null">
+        recommender_id,
+      </if>
+      <if test="easemobUserName != null">
+        easemob_user_name,
+      </if>
+      <if test="easemobPassword != null">
+        easemob_password,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="tourist != null">
+        tourist,
+      </if>
+      <if test="isRemind != null">
+        is_remind,
+      </if>
+      <if test="oldLoginTime != null">
+        old_login_time,
+      </if>
+      <if test="oldLoginIp != null">
+        old_login_ip,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="loginIp != null">
+        login_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="expertCheckStatus != null">
+        #{expertCheckStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="registSource != null">
+        #{registSource,jdbcType=CHAR},
+      </if>
+      <if test="registTime != null">
+        #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editTime != null">
+        #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null">
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="isSync != null">
+        #{isSync,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="initTime != null">
+        #{initTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="yearEndTime != null">
+        #{yearEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="field != null">
+        #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null">
+        #{workYears,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="workCard != null">
+        #{workCard,jdbcType=VARCHAR},
+      </if>
+      <if test="visitCard != null">
+        #{visitCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardFront != null">
+        #{idcardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBack != null">
+        #{idcardBack,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null">
+        #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        #{terminal,jdbcType=VARCHAR},
+      </if>
+      <if test="bankid != null">
+        #{bankid,jdbcType=INTEGER},
+      </if>
+      <if test="income != null">
+        #{income,jdbcType=DECIMAL},
+      </if>
+      <if test="canWithdraw != null">
+        #{canWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="virtualCoin != null">
+        #{virtualCoin,jdbcType=DECIMAL},
+      </if>
+      <if test="isShowindex != null">
+        #{isShowindex,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendTimes != null">
+        #{recommendTimes,jdbcType=INTEGER},
+      </if>
+      <if test="recommenderId != null">
+        #{recommenderId,jdbcType=INTEGER},
+      </if>
+      <if test="easemobUserName != null">
+        #{easemobUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="easemobPassword != null">
+        #{easemobPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tourist != null">
+        #{tourist,jdbcType=VARCHAR},
+      </if>
+      <if test="isRemind != null">
+        #{isRemind,jdbcType=TINYINT},
+      </if>
+      <if test="oldLoginTime != null">
+        #{oldLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldLoginIp != null">
+        #{oldLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null">
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nelson.test.dao.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.openid != null">
+        openID = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null">
+        role = #{record.role,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expertCheckStatus != null">
+        expert_check_status = #{record.expertCheckStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registSource != null">
+        regist_source = #{record.registSource,jdbcType=CHAR},
+      </if>
+      <if test="record.registTime != null">
+        regist_time = #{record.registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editTime != null">
+        edit_time = #{record.editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.photo != null">
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagePath != null">
+        image_path = #{record.imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessToken != null">
+        access_token = #{record.accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSync != null">
+        is_sync = #{record.isSync,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.job != null">
+        job = #{record.job,jdbcType=VARCHAR},
+      </if>
+      <if test="record.initTime != null">
+        init_time = #{record.initTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearEndTime != null">
+        year_end_time = #{record.yearEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.field != null">
+        field = #{record.field,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.profession != null">
+        profession = #{record.profession,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workYears != null">
+        work_years = #{record.workYears,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intro != null">
+        intro = #{record.intro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workCard != null">
+        work_card = #{record.workCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visitCard != null">
+        visit_card = #{record.visitCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardFront != null">
+        idcard_front = #{record.idcardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardBack != null">
+        idcard_back = #{record.idcardBack,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appVersion != null">
+        app_version = #{record.appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.terminal != null">
+        terminal = #{record.terminal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankid != null">
+        bankID = #{record.bankid,jdbcType=INTEGER},
+      </if>
+      <if test="record.income != null">
+        income = #{record.income,jdbcType=DECIMAL},
+      </if>
+      <if test="record.canWithdraw != null">
+        can_withdraw = #{record.canWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="record.integral != null">
+        integral = #{record.integral,jdbcType=INTEGER},
+      </if>
+      <if test="record.virtualCoin != null">
+        virtual_coin = #{record.virtualCoin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isShowindex != null">
+        is_showIndex = #{record.isShowindex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recommendTimes != null">
+        recommend_times = #{record.recommendTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommenderId != null">
+        recommender_id = #{record.recommenderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.easemobUserName != null">
+        easemob_user_name = #{record.easemobUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.easemobPassword != null">
+        easemob_password = #{record.easemobPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uuid != null">
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tourist != null">
+        tourist = #{record.tourist,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRemind != null">
+        is_remind = #{record.isRemind,jdbcType=TINYINT},
+      </if>
+      <if test="record.oldLoginTime != null">
+        old_login_time = #{record.oldLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.oldLoginIp != null">
+        old_login_ip = #{record.oldLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginTime != null">
+        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginIp != null">
+        login_ip = #{record.loginIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=INTEGER},
+      openID = #{record.openid,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      role = #{record.role,jdbcType=VARCHAR},
+      expert_check_status = #{record.expertCheckStatus,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      regist_source = #{record.registSource,jdbcType=CHAR},
+      regist_time = #{record.registTime,jdbcType=TIMESTAMP},
+      edit_time = #{record.editTime,jdbcType=TIMESTAMP},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      image_path = #{record.imagePath,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      access_token = #{record.accessToken,jdbcType=VARCHAR},
+      is_sync = #{record.isSync,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      job = #{record.job,jdbcType=VARCHAR},
+      init_time = #{record.initTime,jdbcType=TIMESTAMP},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      year_end_time = #{record.yearEndTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      field = #{record.field,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      profession = #{record.profession,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      work_years = #{record.workYears,jdbcType=VARCHAR},
+      intro = #{record.intro,jdbcType=VARCHAR},
+      work_card = #{record.workCard,jdbcType=VARCHAR},
+      visit_card = #{record.visitCard,jdbcType=VARCHAR},
+      idcard_front = #{record.idcardFront,jdbcType=VARCHAR},
+      idcard_back = #{record.idcardBack,jdbcType=VARCHAR},
+      app_version = #{record.appVersion,jdbcType=VARCHAR},
+      terminal = #{record.terminal,jdbcType=VARCHAR},
+      bankID = #{record.bankid,jdbcType=INTEGER},
+      income = #{record.income,jdbcType=DECIMAL},
+      can_withdraw = #{record.canWithdraw,jdbcType=DECIMAL},
+      integral = #{record.integral,jdbcType=INTEGER},
+      virtual_coin = #{record.virtualCoin,jdbcType=DECIMAL},
+      is_showIndex = #{record.isShowindex,jdbcType=VARCHAR},
+      recommend_times = #{record.recommendTimes,jdbcType=INTEGER},
+      recommender_id = #{record.recommenderId,jdbcType=INTEGER},
+      easemob_user_name = #{record.easemobUserName,jdbcType=VARCHAR},
+      easemob_password = #{record.easemobPassword,jdbcType=VARCHAR},
+      uuid = #{record.uuid,jdbcType=VARCHAR},
+      tourist = #{record.tourist,jdbcType=VARCHAR},
+      is_remind = #{record.isRemind,jdbcType=TINYINT},
+      old_login_time = #{record.oldLoginTime,jdbcType=TIMESTAMP},
+      old_login_ip = #{record.oldLoginIp,jdbcType=VARCHAR},
+      login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      login_ip = #{record.loginIp,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    <set>
+      <if test="openid != null">
+        openID = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="expertCheckStatus != null">
+        expert_check_status = #{expertCheckStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="registSource != null">
+        regist_source = #{registSource,jdbcType=CHAR},
+      </if>
+      <if test="registTime != null">
+        regist_time = #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editTime != null">
+        edit_time = #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null">
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="isSync != null">
+        is_sync = #{isSync,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="initTime != null">
+        init_time = #{initTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="yearEndTime != null">
+        year_end_time = #{yearEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="field != null">
+        field = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="workYears != null">
+        work_years = #{workYears,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="workCard != null">
+        work_card = #{workCard,jdbcType=VARCHAR},
+      </if>
+      <if test="visitCard != null">
+        visit_card = #{visitCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardFront != null">
+        idcard_front = #{idcardFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBack != null">
+        idcard_back = #{idcardBack,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null">
+        app_version = #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        terminal = #{terminal,jdbcType=VARCHAR},
+      </if>
+      <if test="bankid != null">
+        bankID = #{bankid,jdbcType=INTEGER},
+      </if>
+      <if test="income != null">
+        income = #{income,jdbcType=DECIMAL},
+      </if>
+      <if test="canWithdraw != null">
+        can_withdraw = #{canWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="virtualCoin != null">
+        virtual_coin = #{virtualCoin,jdbcType=DECIMAL},
+      </if>
+      <if test="isShowindex != null">
+        is_showIndex = #{isShowindex,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendTimes != null">
+        recommend_times = #{recommendTimes,jdbcType=INTEGER},
+      </if>
+      <if test="recommenderId != null">
+        recommender_id = #{recommenderId,jdbcType=INTEGER},
+      </if>
+      <if test="easemobUserName != null">
+        easemob_user_name = #{easemobUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="easemobPassword != null">
+        easemob_password = #{easemobPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tourist != null">
+        tourist = #{tourist,jdbcType=VARCHAR},
+      </if>
+      <if test="isRemind != null">
+        is_remind = #{isRemind,jdbcType=TINYINT},
+      </if>
+      <if test="oldLoginTime != null">
+        old_login_time = #{oldLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldLoginIp != null">
+        old_login_ip = #{oldLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null">
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nelson.test.dao.model.Member">
+    update member
+    set openID = #{openid,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      expert_check_status = #{expertCheckStatus,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      regist_source = #{registSource,jdbcType=CHAR},
+      regist_time = #{registTime,jdbcType=TIMESTAMP},
+      edit_time = #{editTime,jdbcType=TIMESTAMP},
+      photo = #{photo,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      is_sync = #{isSync,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      init_time = #{initTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      grade = #{grade,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      year_end_time = #{yearEndTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      field = #{field,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      work_years = #{workYears,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      work_card = #{workCard,jdbcType=VARCHAR},
+      visit_card = #{visitCard,jdbcType=VARCHAR},
+      idcard_front = #{idcardFront,jdbcType=VARCHAR},
+      idcard_back = #{idcardBack,jdbcType=VARCHAR},
+      app_version = #{appVersion,jdbcType=VARCHAR},
+      terminal = #{terminal,jdbcType=VARCHAR},
+      bankID = #{bankid,jdbcType=INTEGER},
+      income = #{income,jdbcType=DECIMAL},
+      can_withdraw = #{canWithdraw,jdbcType=DECIMAL},
+      integral = #{integral,jdbcType=INTEGER},
+      virtual_coin = #{virtualCoin,jdbcType=DECIMAL},
+      is_showIndex = #{isShowindex,jdbcType=VARCHAR},
+      recommend_times = #{recommendTimes,jdbcType=INTEGER},
+      recommender_id = #{recommenderId,jdbcType=INTEGER},
+      easemob_user_name = #{easemobUserName,jdbcType=VARCHAR},
+      easemob_password = #{easemobPassword,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      tourist = #{tourist,jdbcType=VARCHAR},
+      is_remind = #{isRemind,jdbcType=TINYINT},
+      old_login_time = #{oldLoginTime,jdbcType=TIMESTAMP},
+      old_login_ip = #{oldLoginIp,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      login_ip = #{loginIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>
