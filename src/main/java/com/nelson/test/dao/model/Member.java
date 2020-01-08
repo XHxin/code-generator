@@ -31,6 +31,13 @@ public class Member implements Serializable {
      */
     private String mobile;
 
+    /**
+     * 密码
+     *
+     * @mbg.generated
+     */
+    private String passwd;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -65,6 +72,14 @@ public class Member implements Serializable {
         this.mobile = mobile;
     }
 
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -75,6 +90,7 @@ public class Member implements Serializable {
         sb.append(", nickName=").append(nickName);
         sb.append(", unionId=").append(unionId);
         sb.append(", mobile=").append(mobile);
+        sb.append(", passwd=").append(passwd);
         sb.append("]");
         return sb.toString();
     }
@@ -94,7 +110,8 @@ public class Member implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
             && (this.getUnionId() == null ? other.getUnionId() == null : this.getUnionId().equals(other.getUnionId()))
-            && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()));
+            && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()))
+            && (this.getPasswd() == null ? other.getPasswd() == null : this.getPasswd().equals(other.getPasswd()));
     }
 
     @Override
@@ -105,6 +122,7 @@ public class Member implements Serializable {
         result = prime * result + ((getNickName() == null) ? 0 : getNickName().hashCode());
         result = prime * result + ((getUnionId() == null) ? 0 : getUnionId().hashCode());
         result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
+        result = prime * result + ((getPasswd() == null) ? 0 : getPasswd().hashCode());
         return result;
     }
 }

@@ -1,13 +1,25 @@
 package ${package_name}.service;
 
-import com.nelson.test.base.BaseService;
-import ${package_name}.dao.model.${model};
-import ${package_name}.dao.model.${model}Example;
+import ${package_name}.base.BaseService;
+import ${package_name}.core.result.Result;
+import ${package_name}.dto.${model}.${Model}ListDTO;
+import ${package_name}.dto.${model}.${Model}SaveDTO;
+import ${package_name}.dao.model.${Model};
+import ${package_name}.dao.model.${Model}Example;
 
 /**
-* ${model}Service接口
-* Created by shuzheng on ${ctime}.
+* ${Model}Service接口
+* Created by Nelson on ${ctime}.
 */
-public interface ${model}Service extends BaseService<${model}, ${model}Example> {
+public interface ${Model}Service extends BaseService<${Model}, ${Model}Example> {
 
+    Result save${Model}(${Model}SaveDTO dto);
+
+    Result delete${Model}(Integer id);
+
+    Result get${Model}(Integer id);
+
+    Result list${Model}(${Model}ListDTO dto, int pageNo, int pageSize);
+
+    Result update${Model}(Integer id, ${Model}UpdateDTO dto);
 }

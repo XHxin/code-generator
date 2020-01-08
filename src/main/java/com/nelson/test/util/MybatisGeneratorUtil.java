@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.nelson.test.util.StringUtil.lineToHump;
+import static com.nelson.test.util.StringUtil.toLowerCaseFirstOne;
+import static com.nelson.test.util.StringUtil.toUpperCaseFirstOne;
 
 
 /**
@@ -28,6 +30,12 @@ public class MybatisGeneratorUtil {
 	private static String serviceMock_vm = "/template/ServiceMock.vm";
 	// ServiceImpl模板路径
 	private static String serviceImpl_vm = "/template/ServiceImpl.vm";
+	//Controller模板路径
+	private static String controller_vm = "/template/Controller.vm";
+	//SaveDTO模板路径
+	private static String saveDTO_vm = "/template/SaveDTO.vm";
+	//ListDTO模板路径
+	private static String listDTO_vm = "/template/ListDTO.vm";
 
 	/**
 	 * 根据模板生成generatorConfig.xml文件
@@ -59,12 +67,19 @@ public class MybatisGeneratorUtil {
 			service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
 			serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
+			controller_vm = MybatisGeneratorUtil.class.getResource(controller_vm).getPath().replaceFirst("/", "");
+			saveDTO_vm = MybatisGeneratorUtil.class.getResource(saveDTO_vm).getPath().replaceFirst("/", "");
+			listDTO_vm = MybatisGeneratorUtil.class.getResource(listDTO_vm).getPath().replaceFirst("/", "");
+
 			basePath = basePath.replaceFirst("/", "");
 		} else {
 			generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath();
 			service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath();
 			serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath();
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath();
+			controller_vm = MybatisGeneratorUtil.class.getResource(controller_vm).getPath();
+			saveDTO_vm = MybatisGeneratorUtil.class.getResource(saveDTO_vm).getPath();
+			listDTO_vm = MybatisGeneratorUtil.class.getResource(listDTO_vm).getPath();
 		}
 
 		String generatorConfigXml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "") + "/src/main/resources/generatorConfig.xml";
@@ -126,17 +141,25 @@ public class MybatisGeneratorUtil {
 		String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
 		String servicePath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/service";
 		String serviceImplPath = basePath + module + "/" + module + "src/main/java/" + packageName.replaceAll("\\.", "/") + "/service/impl";
+		String controllerPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/controller";
+		String saveDTOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dto";
+		String listDTOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dto";
 		for (int i = 0; i < tables.size(); i++) {
 			String model = lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
+			String lowerCaseModel = toLowerCaseFirstOne(lineToHump(ObjectUtils.toString(tables.get(i).get("table_name"))));
 			String service = servicePath + "/" + model + "Service.java";
 			String serviceMock = servicePath + "/" + model + "ServiceMock.java";
 			String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
+			String controller = controllerPath + "/" + model + "Controller.java";
+			String saveDTO = saveDTOPath + "/" + lowerCaseModel + "/" + model+ "SaveDTO.java";
+			String listDTO = listDTOPath + "/" + lowerCaseModel + "/" + model + "ListDTO.java";
 			// 生成service
 			File serviceFile = new File(service);
 			if (!serviceFile.exists()) {
 				VelocityContext context = new VelocityContext();
 				context.put("package_name", packageName);
-				context.put("model", model);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
 				context.put("ctime", ctime);
 				VelocityUtil.generate(service_vm, service, context);
 				System.out.println(service);
@@ -156,12 +179,53 @@ public class MybatisGeneratorUtil {
 			if (!serviceImplFile.exists()) {
 				VelocityContext context = new VelocityContext();
 				context.put("package_name", packageName);
-				context.put("model", model);
-				context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("mapper", toLowerCaseFirstOne(model));
 				context.put("ctime", ctime);
 				VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
 				System.out.println(serviceImpl);
 			}
+			//生成Controller
+			File controllerFile = new File(controller);
+			if (!controllerFile.exists()) {
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("ctime", ctime);
+				VelocityUtil.generate(controller_vm, controller, context);
+				System.out.println(controller);
+			}
+			//生成SaveDTO
+			File saveDTOFile = new File(saveDTO);
+			if (!saveDTOFile.getParentFile().exists()) {
+				saveDTOFile.getParentFile().mkdirs();
+			}
+			if (!saveDTOFile.exists()) {
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("ctime", ctime);
+				VelocityUtil.generate(saveDTO_vm, saveDTO, context);
+				System.out.println(saveDTO);
+			}
+			//生成ListDTO
+			File listDTOFile = new File(listDTO);
+			if (!saveDTOFile.getParentFile().exists()) {
+				saveDTOFile.getParentFile().mkdirs();
+			}
+			if (!listDTOFile.exists()) {
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("ctime", ctime);
+				VelocityUtil.generate(listDTO_vm, listDTO, context);
+				System.out.println(listDTO);
+			}
+
 		}
 		System.out.println("========== 结束生成Service ==========");
 	}

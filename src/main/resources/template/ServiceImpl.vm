@@ -1,29 +1,89 @@
 package ${package_name}.service.impl;
 
-import com.nelson.test.annotation.BaseService;
-import com.nelson.test.base.BaseServiceImpl;
-import ${package_name}.dao.mapper.${model}Mapper;
-import ${package_name}.dao.model.${model};
-import ${package_name}.dao.model.${model}Example;
-import ${package_name}.service.${model}Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import ${package_name}.dto.${model}.${Model}ListDTO;
+import ${package_name}.dto.${model}.${Model}SaveDTO;
+import ${package_name}.annotation.BaseService;
+import ${package_name}.base.BaseServiceImpl;
+import ${package_name}.dao.mapper.${Model}Mapper;
+import ${package_name}.dao.model.${Model};
+import ${package_name}.dao.model.${Model}Example;
+import ${package_name}.service.${Model}Service;
+import ${package_name}.core.enums.ResultEnum;
+import ${package_name}.core.result.Result;
+import ${package_name}.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 /**
-* ${model}Service实现
-* Created by shuzheng on ${ctime}.
+* ${Model}Service实现
+* Created by Nelson on ${ctime}.
 */
 @Service
 @Transactional
 @BaseService
-public class ${model}ServiceImpl extends BaseServiceImpl<${model}Mapper, ${model}, ${model}Example> implements ${model}Service {
+public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model}, ${Model}Example> implements ${Model}Service {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(${model}ServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(${Model}ServiceImpl.class);
 
     @Autowired
-    ${model}Mapper ${mapper}Mapper;
+    ${Model}Mapper ${mapper}Mapper;
+
+    @Override
+    public Result save${Model}(${Model}SaveDTO dto) {
+        //TODO 封装${Model}
+
+        ${Model} ${model} = new ${Model}();
+        BenUtils.copyProperties(dto, ${model});
+        if(${mapper}Mapper.insert(${model}) == 1) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.error(ResultEnum.HANDLE_FAILURE);
+    }
+
+    @Override
+    public Result delete${Model}(Integer id) {
+        if(${mapper}Mapper.deleteByPrimaryKey(id) == 1) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.error(ResultEnum.HANDLE_FAILURE);
+    }
+
+    @Override
+    public Result get${Model}(Integer id) {
+        ${Model} ${model} = ${mapper}Mapper.selectByPrimaryKey(id);
+        if(${model} != null) {
+            //TODO 封装返回的内容
+            ${Model}VO result = new ${Model}VO();
+            return ResultUtil.success(result);
+        }
+        return ResultUtil.error(ResultEnum.FAILURE);
+    }
+
+    @Override
+    public Result list${Model}(${Model}ListDTO dto, int pageNo, int pageSize) {
+        Page<${Model}> page = PageHelper.startPage(pageNo, pageSize);
+        List<${Model}> ${model}s = ${mapper}Mapper.list(dto);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Result update${Model}(Integer id, ${Model}UpdateDTO dto) {
+        ${Model} ${model} = ${mapper}Mapper.selectByPrimaryKey(id);
+        if(${model} != null) {
+            //TODO 设值
+
+            if(${mapper}Mapper.updateByPrimaryKeySelective(${model}) == 1) {
+                return ResultUtil.success();
+            }
+        }
+        return ResultUtil.error(ResultEnum.FAILURE);
+    }
 
 }

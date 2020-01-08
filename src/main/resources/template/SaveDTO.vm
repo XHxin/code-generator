@@ -1,0 +1,13 @@
+package ${package_name}.dto.${model};
+
+import lombok.Data;
+/**
+ * ${model}SaveDTO
+ * Created by Nelson on ${ctime}.
+ */
+@Data
+public class ${Model}SaveDTO {
+
+    public ${Model}SaveDTO() {
+    }
+}
