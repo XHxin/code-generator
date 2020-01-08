@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import ${package_name}.dto.${model}.${Model}ListDTO;
 import ${package_name}.dto.${model}.${Model}SaveDTO;
 import ${package_name}.base.BaseController;
-import ${package_name}.service.MemberService;
+import ${package_name}.service.${Model}Service};
 import ${package_name}.core.result.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
