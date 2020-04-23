@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ${package_name}.dto.${model}.${Model}ListDTO;
 import ${package_name}.dto.${model}.${Model}SaveDTO;
-import ${package_name}.base.BaseController;
-import ${package_name}.service.${Model}Service};
-import ${package_name}.core.result.Result;
+import ${package_name}.dto.${model}.${Model}UpdateDTO;
+import ${package_name}.service.${Model}Service;
+import ${package_name}.core.resp.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Nelson on ${ctime}.
  */
 @RestController
-@RequestMapping("/${model}")
-public class ${Model}Controller extends BaseController {
+@RequestMapping("/${path}")
+public class ${Model}Controller {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(${Model}Controller.class);
 

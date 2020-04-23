@@ -49,7 +49,9 @@
         <jdbcConnection driverClass="${generator.jdbc.driver}"
                         connectionURL="${generator.jdbc.url}"
                         userId="${generator.jdbc.username}"
-                        password="${generator_jdbc_password}" />
+                        password="${generator_jdbc_password}">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
 
         <!-- model生成 -->
         <javaModelGenerator targetPackage="${generator_javaModelGenerator_targetPackage}" targetProject="${targetProject}/src/main/java" />

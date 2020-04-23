@@ -30,8 +30,10 @@ public class MybatisGeneratorUtil {
 	private static String serviceImpl_vm = "/template/ServiceImpl.vm";
 	private static String controller_vm = "/template/Controller.vm";
 	private static String saveDTO_vm = "/template/SaveDTO.vm";
+	private static String updateDTO_vm = "/template/UpdateDTO.vm";
 	private static String listDTO_vm = "/template/ListDTO.vm";
 	private static String pageVO_vm = "/template/PageVO.vm";
+	private static String modelVO_vm = "/template/ModelVO.vm";
 	private static String result_vm = "/template/Result.vm";
 	private static String resultEnum_vm = "/template/ResultEnum.vm";
 	private static String resultUtil_vm = "/template/ResultUtil.vm";
@@ -70,8 +72,10 @@ public class MybatisGeneratorUtil {
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
 			controller_vm = MybatisGeneratorUtil.class.getResource(controller_vm).getPath().replaceFirst("/", "");
 			saveDTO_vm = MybatisGeneratorUtil.class.getResource(saveDTO_vm).getPath().replaceFirst("/", "");
+			updateDTO_vm = MybatisGeneratorUtil.class.getResource(updateDTO_vm).getPath().replaceFirst("/", "");
 			listDTO_vm = MybatisGeneratorUtil.class.getResource(listDTO_vm).getPath().replaceFirst("/", "");
 			pageVO_vm = MybatisGeneratorUtil.class.getResource(pageVO_vm).getPath().replaceFirst("/", "");
+			modelVO_vm = MybatisGeneratorUtil.class.getResource(modelVO_vm).getPath().replaceFirst("/", "");
 			result_vm = MybatisGeneratorUtil.class.getResource(result_vm).getPath().replaceFirst("/","");
 			resultEnum_vm = MybatisGeneratorUtil.class.getResource(resultEnum_vm).getPath().replaceFirst("/", "");
 			resultUtil_vm = MybatisGeneratorUtil.class.getResource(resultUtil_vm).getPath().replaceFirst("/", "");
@@ -86,8 +90,10 @@ public class MybatisGeneratorUtil {
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath();
 			controller_vm = MybatisGeneratorUtil.class.getResource(controller_vm).getPath();
 			saveDTO_vm = MybatisGeneratorUtil.class.getResource(saveDTO_vm).getPath();
+			updateDTO_vm = MybatisGeneratorUtil.class.getResource(updateDTO_vm).getPath();
 			listDTO_vm = MybatisGeneratorUtil.class.getResource(listDTO_vm).getPath();
 			pageVO_vm = MybatisGeneratorUtil.class.getResource(pageVO_vm).getPath();
+			modelVO_vm = MybatisGeneratorUtil.class.getResource(modelVO_vm).getPath();
 			result_vm = MybatisGeneratorUtil.class.getResource(result_vm).getPath();
 			resultEnum_vm = MybatisGeneratorUtil.class.getResource(resultEnum_vm).getPath();
 			resultUtil_vm = MybatisGeneratorUtil.class.getResource(resultUtil_vm).getPath();
@@ -156,8 +162,10 @@ public class MybatisGeneratorUtil {
 		String serviceImplPath = basePath + module + "/" + module + "src/main/java/" + packageName.replaceAll("\\.", "/") + "/service/impl";
 		String controllerPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/controller";
 		String saveDTOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dto";
+		String updateDTOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dto";
 		String listDTOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/dto";
 		String pageVOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.","/") + "/core/resp";
+		String modelVOPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.","/") + "/vo";
 		String resultPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.","/") + "/core/resp";
 		String resultEnumPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.","/") + "/core/enums";
 		String resultUtilPath = basePath + module + "/src/main/java/" + packageName.replaceAll("\\.","/") + "/core/resp";
@@ -171,7 +179,25 @@ public class MybatisGeneratorUtil {
 			String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
 			String controller = controllerPath + "/" + model + "Controller.java";
 			String saveDTO = saveDTOPath + "/" + lowerCaseModel + "/" + model+ "SaveDTO.java";
+			String updateDTO = updateDTOPath + "/" + lowerCaseModel + "/" + model + "UpdateDTO.java";
 			String listDTO = listDTOPath + "/" + lowerCaseModel + "/" + model + "ListDTO.java";
+			String modelVO = modelVOPath + "/" + lowerCaseModel + "/" + model + "VO.java";
+
+			System.out.println("===========开始生成ModelVO==========");
+			File modelVOFile = new File(modelVO);
+			if (!modelVOFile.exists()) {
+				modelVOFile.getParentFile().mkdirs();
+				modelVOFile.createNewFile();
+
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("ctime", ctime);
+				VelocityUtil.generate(modelVO_vm, modelVO, context);
+				System.out.println(modelVO);
+			}
+			System.out.println("===========结束生成ModelVO==========");
 			// 生成service
 			File serviceFile = new File(service);
 			if (!serviceFile.exists()) {
@@ -220,6 +246,7 @@ public class MybatisGeneratorUtil {
 				VelocityContext context = new VelocityContext();
 				context.put("package_name", packageName);
 				context.put("model", lowerCaseModel);
+				context.put("path", tables.get(i).get("table_name"));
 				context.put("Model", model);
 				context.put("ctime", ctime);
 				VelocityUtil.generate(controller_vm, controller, context);
@@ -238,6 +265,20 @@ public class MybatisGeneratorUtil {
 				context.put("ctime", ctime);
 				VelocityUtil.generate(saveDTO_vm, saveDTO, context);
 				System.out.println(saveDTO);
+			}
+			//生成updateDTO
+			File updateDTOFile = new File(updateDTO);
+			if (!updateDTOFile.getParentFile().exists()){
+				updateDTOFile.getParentFile().mkdirs();
+			}
+			if (!updateDTOFile.exists()){
+				VelocityContext context = new VelocityContext();
+				context.put("package_name", packageName);
+				context.put("model", lowerCaseModel);
+				context.put("Model", model);
+				context.put("ctime", ctime);
+				VelocityUtil.generate(updateDTO_vm, updateDTO, context);
+				System.out.println(updateDTO);
 			}
 			//生成ListDTO
 			File listDTOFile = new File(listDTO);

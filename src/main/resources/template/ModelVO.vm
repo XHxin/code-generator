@@ -1,0 +1,14 @@
+package ${package_name}.vo.${model};
+
+import lombok.Data;
+
+import java.util.List;
+
+/**
+* ${model}详情
+* Created by Nelson on ${ctime}.
+*/
+@Data
+public class ${Model}VO {
+
+}

@@ -1,17 +1,15 @@
 package ${package_name}.service;
 
-import ${package_name}.base.BaseService;
-import ${package_name}.core.result.Result;
+import ${package_name}.core.resp.Result;
 import ${package_name}.dto.${model}.${Model}ListDTO;
 import ${package_name}.dto.${model}.${Model}SaveDTO;
-import ${package_name}.dao.model.${Model};
-import ${package_name}.dao.model.${Model}Example;
+import ${package_name}.dto.${model}.${Model}UpdateDTO;
 
 /**
 * ${Model}Service接口
 * Created by Nelson on ${ctime}.
 */
-public interface ${Model}Service extends BaseService<${Model}, ${Model}Example> {
+public interface ${Model}Service {
 
     Result save${Model}(${Model}SaveDTO dto);
 

@@ -4,15 +4,15 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import ${package_name}.dto.${model}.${Model}ListDTO;
 import ${package_name}.dto.${model}.${Model}SaveDTO;
-import ${package_name}.annotation.BaseService;
-import ${package_name}.base.BaseServiceImpl;
-import ${package_name}.dao.mapper.${Model}Mapper;
-import ${package_name}.dao.model.${Model};
-import ${package_name}.dao.model.${Model}Example;
+import ${package_name}.dto.${model}.${Model}UpdateDTO;
+import ${package_name}.vo.${model}.${Model}VO;
+import ${package_name}.mapper.${Model}Mapper;
+import ${package_name}.model.${Model};
+import ${package_name}.model.${Model}Example;
 import ${package_name}.service.${Model}Service;
 import ${package_name}.core.enums.ResultEnum;
-import ${package_name}.core.result.Result;
-import ${package_name}.util.ResultUtil;
+import ${package_name}.core.resp.Result;
+import ${package_name}.core.resp.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,8 +27,7 @@ import java.util.List;
 */
 @Service
 @Transactional
-@BaseService
-public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model}, ${Model}Example> implements ${Model}Service {
+public class ${Model}ServiceImpl implements ${Model}Service {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(${Model}ServiceImpl.class);
 
@@ -40,7 +39,7 @@ public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model
         //TODO 封装${Model}
 
         ${Model} ${model} = new ${Model}();
-        BenUtils.copyProperties(dto, ${model});
+        BeanUtils.copyProperties(dto, ${model});
         if(${mapper}Mapper.insert(${model}) == 1) {
             return ResultUtil.success();
         }
@@ -49,7 +48,7 @@ public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model
 
     @Override
     public Result delete${Model}(Integer id) {
-        if(${mapper}Mapper.deleteByPrimaryKey(id) == 1) {
+        if(${mapper}Mapper.deleteById(id) == 1) {
             return ResultUtil.success();
         }
         return ResultUtil.error(ResultEnum.HANDLE_FAILURE);
@@ -57,7 +56,7 @@ public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model
 
     @Override
     public Result get${Model}(Integer id) {
-        ${Model} ${model} = ${mapper}Mapper.selectByPrimaryKey(id);
+        ${Model} ${model} = ${mapper}Mapper.selectById(id);
         if(${model} != null) {
             //TODO 封装返回的内容
             ${Model}VO result = new ${Model}VO();
@@ -69,17 +68,17 @@ public class ${Model}ServiceImpl extends BaseServiceImpl<${Model}Mapper, ${Model
     @Override
     public Result list${Model}(${Model}ListDTO dto, int pageNo, int pageSize) {
         Page<${Model}> page = PageHelper.startPage(pageNo, pageSize);
-        List<${Model}> ${model}s = ${mapper}Mapper.list(dto);
+        //List<${Model}> ${model}s = ${mapper}Mapper.list(dto);
         return ResultUtil.success();
     }
 
     @Override
     public Result update${Model}(Integer id, ${Model}UpdateDTO dto) {
-        ${Model} ${model} = ${mapper}Mapper.selectByPrimaryKey(id);
+        ${Model} ${model} = ${mapper}Mapper.selectById(id);
         if(${model} != null) {
             //TODO 设值
 
-            if(${mapper}Mapper.updateByPrimaryKeySelective(${model}) == 1) {
+            if(${mapper}Mapper.updateById(${model}) == 1) {
                 return ResultUtil.success();
             }
         }

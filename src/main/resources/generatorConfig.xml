@@ -49,18 +49,31 @@
         <jdbcConnection driverClass="${generator.jdbc.driver}"
                         connectionURL="${generator.jdbc.url}"
                         userId="${generator.jdbc.username}"
-                        password="aimashi620" />
+                        password="aimashi620">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="com.rico.mall.model" targetProject="D:/Idea-projects/code-generator//src/main/java" />
+        <javaModelGenerator targetPackage="cn.org.cvc.model" targetProject="D:/Idea-projects/code-generator//src/main/java" />
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="com.rico.mall.mapper" targetProject="D:/Idea-projects/code-generator//src/main/java" />
+        <sqlMapGenerator targetPackage="cn.org.cvc.mapper" targetProject="D:/Idea-projects/code-generator//src/main/java" />
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="com.rico.mall.mapper" targetProject="D:/Idea-projects/code-generator//src/main/java" type="ANNOTATEDMAPPER" />
+        <javaClientGenerator targetPackage="cn.org.cvc.mapper" targetProject="D:/Idea-projects/code-generator//src/main/java" type="ANNOTATEDMAPPER" />
 
         <!-- 需要映射的表 -->
-                                    <table tableName="banner" domainObjectName="Banner"></table>
+                                    <table tableName="case_db" domainObjectName="CaseDb"></table>
+                                                <table tableName="case_test_item" domainObjectName="CaseTestItem"></table>
+                                                <table tableName="company" domainObjectName="Company"></table>
+                                                <table tableName="department" domainObjectName="Department"></table>
+                                                <table tableName="edit_history" domainObjectName="EditHistory"></table>
+                                                <table tableName="manager" domainObjectName="Manager"></table>
+                                                <table tableName="member" domainObjectName="Member"></table>
+                                                <table tableName="member_check" domainObjectName="MemberCheck"></table>
+                                                <table tableName="r_case_rectification" domainObjectName="RCaseRectification"></table>
+                                                <table tableName="rectification_db" domainObjectName="RectificationDb"></table>
+                                                <table tableName="test_item" domainObjectName="TestItem"></table>
+                                                <table tableName="test_item_attachment" domainObjectName="TestItemAttachment"></table>
                         </context>
 </generatorConfiguration>

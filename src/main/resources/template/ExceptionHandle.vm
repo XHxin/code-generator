@@ -25,7 +25,7 @@ public class ExceptionHandle {
     * @param ex
     * @return
     */
-    @ExceptionHandler({MissingServletRequestParameterException.class, ParamIsNullException.class})
+    @ExceptionHandler({MissingServletRequestParameterException.class})
     public Result<String> paramIsNull(Exception ex) {
         //        return ResultUtil.error(ResultEnum.WRONG_REQUEST_PARAMETER.getCode(),ResultEnum.WRONG_REQUEST_PARAMETER.getMsg());
         return ResultUtil.error(ResultEnum.WRONG_REQUEST_PARAMETER.getCode(), ex.getMessage());
